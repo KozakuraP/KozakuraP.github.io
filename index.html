@@ -1,5 +1,8 @@
-<!--MIT License-->
-<!--(C)KozakuraP-->
+<!--
+SPDX-License-Identifier: MIT
+(C) 2026 KozakuraP
+VERSION:P.103
+-->
 <!DOCTYPE html>
 <html lang="jp">
 <head>
@@ -99,7 +102,7 @@
             let now=new Date();/*今の時間を取得*/
             console.log(now);/*デバッグ用コンソールログ*/
 
-            now_youbi=youbi[now.getDay()]/*今の曜日を取得。youbiのarrから取る*/
+            let now_youbi=youbi[now.getDay()]/*今の曜日を取得。youbiのarrから取る*/
 
             clock.innerHTML/*<br>をやれるのはinnerHTMLのみ*/ =
             /*"``"を入れることでf""をやることができる*/
@@ -122,20 +125,20 @@
         const tiles=document.querySelectorAll(".tile")
         
         /*tileのarr*/
-        tile_arr=[ta,tb,tc,td,te,tf,tg,th,ti,tj,tk,tl,tm,tn,to,tp,tq,tr,ts,tt]
+        const tile_arr=[ta,tb,tc,td,te,tf,tg,th,ti,tj,tk,tl,tm,tn,to,tp,tq,tr,ts,tt]
 
         function color_select(){
-            tile_colorR=
+            let tile_colorR=
             Math.floor(Math.random()*256).toString(16).padStart(2,"0")
             /*ランダムして、16進変換した後にゼロ埋め*/
 
-            tile_colorG=
+            let tile_colorG=
             Math.floor(Math.random()*256).toString(16).padStart(2,"0")
 
-            tile_colorB=
+            let tile_colorB=
             Math.floor(Math.random()*256).toString(16).padStart(2,"0")
 
-            tile_color="#"+tile_colorR+tile_colorG+tile_colorB;
+            let tile_color="#"+tile_colorR+tile_colorG+tile_colorB;
         }
 
         let tile_color="";
@@ -149,7 +152,7 @@
         }
 
         setInterval(()=>{
-            random_tile=tile_arr[Math.floor(Math.random()*tile_arr.length)];
+            let random_tile=tile_arr[Math.floor(Math.random()*tile_arr.length)];
             color_select()
             random_tile.style.backgroundColor=tile_color
         },500);
