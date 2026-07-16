@@ -1,0 +1,405 @@
+<!--
+SPDX-License-Identifier: MIT
+(C) 2026 KozakuraP
+VERSION:P.104
+-->
+<!doctype html>
+<html lang="jp">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ColorClock</title>
+    </head>
+    <body>
+        <p id="credit">(C) 2026 KozakuraP</p>
+
+        <p id="version">V:P.104</p>
+
+        <h1 id="clock">
+            エラー<br />
+            JavaScriptが有効になっているかお確かめ下さい
+        </h1>
+
+        <div class="all">
+            <div class="tile" id="ta"></div>
+            <div class="tile" id="tb"></div>
+            <div class="tile" id="tc"></div>
+            <div class="tile" id="td"></div>
+            <div class="tile" id="te"></div>
+            <div class="tile" id="tf"></div>
+            <div class="tile" id="tg"></div>
+            <div class="tile" id="th"></div>
+            <div class="tile" id="ti"></div>
+            <div class="tile" id="tj"></div>
+            <div class="tile" id="tk"></div>
+            <div class="tile" id="tl"></div>
+            <div class="tile" id="tm"></div>
+            <div class="tile" id="tn"></div>
+            <div class="tile" id="to"></div>
+            <div class="tile" id="tp"></div>
+            <div class="tile" id="tq"></div>
+            <div class="tile" id="tr"></div>
+            <div class="tile" id="ts"></div>
+            <div class="tile" id="tt"></div>
+        </div>
+
+        <img id="setting" src="kkrn_icon_haguruma_6.png" />
+
+        <div id="setting_div">
+            <button class="setting_button" id="jp">
+                日本語か記号か選択します。(現在は「記号」です)<br />例
+                11:33:55と11時33分55秒
+            </button>
+            <button class="setting_button" id="ampm">
+                AM、PMを表記します。(現在は「非表示」です)<br />例 12:34:56とPM
+                0:34:56
+            </button>
+            <button class="setting_button" id="second">
+                秒を表示するか選択します。(現在は「表示」です)<br />例
+                12:34:56と12:34
+            </button>
+            <button class="setting_button" id="weekday">
+                曜日を表示するか選択します。(現在は「表示」です)<br />例
+                2000年1月1日(土)と2000年1月1日
+            </button>
+        </div>
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #credit {
+                text-align: center;
+                position: fixed;
+                transform: translate(-50%, -50%);
+                bottom: -1%;
+                left: 50%;
+                color: #fdeff2; /*薄桜(和色大辞典)*/
+            }
+
+            #version {
+                text-align: center;
+                position: fixed;
+                transform: translate(0%, -50%);
+                bottom: -1%;
+                right: 10px;
+                color: #fdeff2; /*薄桜(和色大辞典)*/
+            }
+
+            #clock {
+                text-align: center;
+                position: fixed;
+                color: #180614; /*烏羽色(和色大辞典)*/
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .all {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                z-index: -100; /*面がめっちゃ後ろに行く*/
+            }
+
+            .tile {
+                box-sizing: border-box;
+            }
+
+            #setting {
+                position: fixed;
+                top: 3%;
+                left: 3%;
+                height: 5%;
+                width: auto;
+            }
+
+            #setting_div {
+                position: fixed;
+                top: 8%;
+                left: 3%;
+
+                display: flex;
+                gap: 0;
+                flex-direction: column;
+            }
+
+            .setting_button {
+                border: 2px solid #180614; /*烏羽色(和色大辞典)*/
+                /*上の順番で書かないとエラー*/
+                background-color: #fdeff2; /*薄桜(和色大辞典)*/
+                color: #180614; /*烏羽色(和色大辞典)*/
+            }
+        </style>
+
+        <script>
+            /*ここからタイル*/
+
+            const tiles = document.querySelectorAll(".tile");
+
+            /*tileのarr*/
+            const tile_arr = [
+                ta,
+                tb,
+                tc,
+                td,
+                te,
+                tf,
+                tg,
+                th,
+                ti,
+                tj,
+                tk,
+                tl,
+                tm,
+                tn,
+                to,
+                tp,
+                tq,
+                tr,
+                ts,
+                tt,
+            ];
+
+            function color_select() {
+                let tile_colorR = Math.floor(Math.random() * 256)
+                    .toString(16)
+                    .padStart(2, "0");
+                /*ランダムして、16進変換した後にゼロ埋め*/
+
+                let tile_colorG = Math.floor(Math.random() * 256)
+                    .toString(16)
+                    .padStart(2, "0");
+
+                let tile_colorB = Math.floor(Math.random() * 256)
+                    .toString(16)
+                    .padStart(2, "0");
+
+                return (tile_color =
+                    "#" + tile_colorR + tile_colorG + tile_colorB);
+            }
+
+            let tile_color = "";
+
+            let num = 0;
+            while (num < 20) {
+                color_select();
+                tile_arr[num].style.backgroundColor = tile_color;
+                num += 1;
+            }
+
+            setInterval(() => {
+                let random_tile =
+                    tile_arr[Math.floor(Math.random() * tile_arr.length)];
+                color_select();
+                random_tile.style.backgroundColor = tile_color;
+            }, 500);
+
+            /*Customize*/
+            const setting_button = document.querySelectorAll(".setting_button");
+            function set_but() {
+                if (setting_flag) {
+                    for (let i = 0; i < setting_button.length; i++) {
+                        let st = setting_button[i];
+                        st.hidden = false;
+                    }
+                } else if (!setting_flag) {
+                    for (let i = 0; i < setting_button.length; i++) {
+                        let st = setting_button[i];
+                        st.hidden = true;
+                    }
+                }
+            }
+
+            /*setting(=T1)*/
+            const setting = document.getElementById("setting");
+            let setting_count = false;
+            let setting_flag = false;
+            set_but();
+            setting.addEventListener("click", function () {
+                if (!setting_count) {
+                    setting_count = true;
+                    setting_flag = true;
+                    console.log(setting_flag);
+                } else {
+                    setting_count = false;
+                    setting_flag = false;
+                    console.log(setting_flag);
+                }
+                set_but();
+            });
+
+            setting_button.forEach(
+                /*一個ずつ取り出す*/ (SB) => /*=>はアロー関数、functionの意*/ {
+                    SB.addEventListener("mouseover", () => {
+                        SB.style.backgroundColor =
+                            "#e8d3d1"; /*灰桜(和色大辞典)*/
+                    });
+
+                    SB.addEventListener("mouseout", () => {
+                        SB.style.backgroundColor = "#fdeff2";
+                    });
+                },
+            );
+
+            const jp = document.getElementById("jp");
+            const ampm = document.getElementById("ampm");
+            const second = document.getElementById("second");
+            const weekday = document.getElementById("weekday");
+
+            let jp_count = false;
+            let ampm_count = false;
+            let second_count = false;
+            let weekday_count = false;
+
+            jp.addEventListener("mouseover", () => {
+                jp.style.backgroundColor = "#e8d3d1" /*灰桜(和色大辞典)*/;
+            });
+            jp.addEventListener("mouseout", () => {
+                jp.style.backgroundColor = "#fdeff2" /*薄桜(和色大辞典)*/;
+            });
+            jp.addEventListener("click", () => {
+                if (jp_count) {
+                    jp_count = false;
+                    jp.innerHTML =
+                        "日本語か記号か選択します(現在は「記号」です)<br>例 11:33:55と11時33分55秒";
+                } else if (!jp_count) {
+                    jp_count = true;
+                    jp.innerHTML =
+                        "日本語か記号か選択します(現在は「日本語」です)<br>例 11:33:55と11時33分55秒";
+                }
+            });
+
+            ampm.addEventListener("mouseover", () => {
+                ampm.style.backgroundColor = "#e8d3d1" /*灰桜(和色大辞典)*/;
+            });
+            ampm.addEventListener("mouseout", () => {
+                ampm.style.backgroundColor = "#fdeff2" /*薄桜(和色大辞典)*/;
+            });
+            ampm.addEventListener("click", () => {
+                if (ampm_count) {
+                    ampm_count = false;
+                    ampm.innerHTML =
+                        "AM、PMを表記します。(現在は「非表示」です)<br>例 12:34:56とPM 0:34:56";
+                } else if (!ampm_count) {
+                    ampm_count = true;
+                    ampm.innerHTML =
+                        "AM、PMを表記します。(現在は「表示」です)<br>例 12:34:56とPM 0:34:56";
+                }
+            });
+
+            second.addEventListener("mouseover", () => {
+                second.style.backgroundColor = "#e8d3d1" /*灰桜(和色大辞典)*/;
+            });
+            second.addEventListener("mouseout", () => {
+                second.style.backgroundColor = "#fdeff2" /*薄桜(和色大辞典)*/;
+            });
+            second.addEventListener("click", () => {
+                if (second_count) {
+                    second_count = false;
+                    second.innerHTML =
+                        "秒を表示するか選択します。(現在は「表示」です)<br>例 12:34:56と12:34";
+                } else if (!second_count) {
+                    second_count = true;
+                    second.innerHTML =
+                        "秒を表示するか選択します。(現在は「非表示」です)<br>例 12:34:56と12:34";
+                }
+            });
+
+            weekday.addEventListener("mouseover", () => {
+                weekday.style.backgroundColor = "#e8d3d1" /*灰桜(和色大辞典)*/;
+            });
+            weekday.addEventListener("mouseout", () => {
+                weekday.style.backgroundColor = "#fdeff2" /*薄桜(和色大辞典)*/;
+            });
+            weekday.addEventListener("click", () => {
+                if (weekday_count) {
+                    weekday_count = false;
+                    weekday.innerHTML =
+                        "曜日を表示するか選択します。(現在は「表示」です)<br>例 2000年1月1日(土)と2000年1月1日";
+                } else if (!weekday_count) {
+                    weekday_count = true;
+                    weekday.innerHTML =
+                        "曜日を表示するか選択します。(現在は「非表示」です)<br>例 2000年1月1日(土)と2000年1月1日";
+                }
+            });
+
+            /*clock*/
+
+            function time() {
+                const clock = document.getElementById("clock");
+                const youbi = ["日", "月", "火", "水", "木", "金", "土"];
+                const en_youbi = [
+                    "Sun",
+                    "Mon",
+                    "Tue",
+                    "Wed",
+                    "Thu",
+                    "Fri",
+                    "Sat",
+                ];
+                let now = new Date(); /*今の時間を取得*/
+
+                let now_text = `${now.getFullYear()}年
+			        ${now.getMonth() + 1}月${now.getDate()}日`;
+
+                if (!weekday_count) {
+                    if (jp_count) {
+                        now_text += `(${youbi[now.getDay()]})`;
+                    } else {
+                        now_text += `(${en_youbi[now.getDay()]})`;
+                    }
+                }
+
+                if (ampm_count) {
+                    if (12 <= now.getHours()) {
+                        now_text += `<br>PM`;
+                        if (jp_count) {
+                            now_text = now_text.replace("PM", "午後");
+                        }
+                    } else {
+                        now_text += `<br>AM`;
+                        if (jp_count) {
+                            now_text = now_text.replace("AM", "午前");
+                        }
+                    }
+                    now_text += `${String(now.getHours()).padStart(2, 0)}時
+			            ${String(now.getMinutes()).padStart(2, 0)}分`;
+                } else {
+                    now_text += `<br>${String(now.getHours()).padStart(2, 0)}時
+			            ${String(now.getMinutes()).padStart(2, 0)}分`;
+                }
+
+                if (!second_count) {
+                    now_text += `${String(now.getSeconds()).padStart(2, 0)}秒`;
+                }
+
+                if (!jp_count) {
+                    now_text = now_text.replace("年", "/");
+                    now_text = now_text.replace("月", "/");
+                    now_text = now_text.replace("日", "");
+                    now_text = now_text.replace("時", ":");
+                    now_text = now_text.replace("秒", "");
+                    if (!second_count) /*秒表示*/ {
+                        now_text = now_text.replace("分", ":");
+                    } else {
+                        now_text = now_text.replace("分", "");
+                    }
+                }
+
+                clock.innerHTML = now_text;
+            }
+
+            time();
+
+            setInterval(() => {
+                time();
+            }, 100);
+        </script>
+    </body>
+</html>
