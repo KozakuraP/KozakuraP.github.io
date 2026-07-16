@@ -13,7 +13,7 @@ VERSION:P.104
     <body>
         <p id="credit">(C) 2026 KozakuraP</p>
 
-        <p id="version">V:P.104</p>
+        <p id="version">V:P.104.1</p>
 
         <h1 id="clock">
             エラー<br />
@@ -368,11 +368,9 @@ VERSION:P.104
                             now_text = now_text.replace("AM", "午前");
                         }
                     }
-                    now_text += `${String(now.getHours()).padStart(2, 0)}時
-			            ${String(now.getMinutes()).padStart(2, 0)}分`;
+                    now_text += `${String(now.getHours()).padStart(2, 0)}時${String(now.getMinutes()).padStart(2, 0)}分`;
                 } else {
-                    now_text += `<br>${String(now.getHours()).padStart(2, 0)}時
-			            ${String(now.getMinutes()).padStart(2, 0)}分`;
+                    now_text += `<br>${String(now.getHours()).padStart(2, 0)}時${String(now.getMinutes()).padStart(2, 0)}分`;
                 }
 
                 if (!second_count) {
